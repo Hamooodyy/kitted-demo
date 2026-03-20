@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Area,
 } from 'recharts';
 
 function CustomTooltip({ active, payload, label }) {
@@ -49,10 +48,10 @@ export default function ShrinkChart({ data }) {
     }}>
       <div style={{ marginBottom: '16px' }}>
         <h2 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#0f172a' }}>
-          7-Day Shrink Trend
+          7-Day Shrink & Bundle Sales Trend
         </h2>
         <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#64748b' }}>
-          Estimated daily shrink loss vs. Kitted recovery — the green gap is margin saved
+          Daily shrink exposure vs. Kitted recovery and actual bundle sales revenue
         </p>
       </div>
 
@@ -79,9 +78,17 @@ export default function ShrinkChart({ data }) {
           />
           <Bar
             dataKey="shrinkLoss"
-            name="Shrink Loss"
+            name="Shrink Exposure"
             fill="#fee2e2"
             stroke="#fca5a5"
+            strokeWidth={1}
+            radius={[4, 4, 0, 0]}
+          />
+          <Bar
+            dataKey="bundleRevenue"
+            name="Bundle Sales Revenue"
+            fill="#dbeafe"
+            stroke="#93c5fd"
             strokeWidth={1}
             radius={[4, 4, 0, 0]}
           />
@@ -111,7 +118,7 @@ export default function ShrinkChart({ data }) {
       }}>
         <span style={{ fontSize: '16px' }}>↑</span>
         <span>
-          <strong>Kitted active days show up to 68% shrink recovery</strong> — Mar 16 recovered $1,290 of $1,720 in projected losses.
+          <strong>On Kitted-active days, bundle sales averaged $256 in revenue</strong> — with up to 75% of projected shrink losses recovered on high-sell days.
         </span>
       </div>
     </div>

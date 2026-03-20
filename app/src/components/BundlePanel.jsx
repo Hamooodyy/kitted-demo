@@ -3,9 +3,16 @@ import { LABEL_CONFIG } from '../constants';
 import Badge from './Badge';
 
 function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
-  const marginRecovery = bundle.bundlePrice * bundle.bundlesAvailable;
+  const revenuePotential = bundle.bundlePrice * bundle.bundlesAvailable;
   const discount = Math.round((1 - bundle.bundlePrice / bundle.retailValue) * 100);
   const lc = LABEL_CONFIG[bundle.label] || LABEL_CONFIG['Tonight Only'];
+  const sellThrough = bundle.unitsSold / bundle.bundlesAvailable;
+  const sellThroughPct = Math.round(sellThrough * 100);
+  const remaining = bundle.bundlesAvailable - bundle.unitsSold;
+  const { progressColor, progressBg } =
+    sellThrough >= 0.5  ? { progressColor: '#16a34a', progressBg: '#dcfce7' } :
+    sellThrough >= 0.25 ? { progressColor: '#d97706', progressBg: '#fef3c7' } :
+                          { progressColor: '#dc2626', progressBg: '#fee2e2' };
 
   return (
     <div
@@ -101,8 +108,29 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px' }}>Recovery</div>
           <div style={{ fontSize: '14px', fontWeight: '700', color: '#16a34a' }}>
-            ${marginRecovery.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            ${revenuePotential.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
           </div>
+        </div>
+      </div>
+
+      {/* Sell-Through Progress */}
+      <div style={{ marginBottom: '12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '600', color: progressColor }}>
+            {bundle.unitsSold} sold · {remaining} remaining
+          </span>
+          <span style={{ fontSize: '11px', fontWeight: '700', color: progressColor }}>
+            {sellThroughPct}% sold
+          </span>
+        </div>
+        <div style={{ height: '6px', borderRadius: '99px', background: progressBg, overflow: 'hidden' }}>
+          <div style={{
+            height: '100%',
+            borderRadius: '99px',
+            background: progressColor,
+            width: `${sellThrough * 100}%`,
+            transition: 'width 0.4s ease',
+          }} />
         </div>
       </div>
 
@@ -112,9 +140,6 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
           <span style={{ fontSize: '12px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Users size={12} />
             Serves {bundle.serves}
-          </span>
-          <span style={{ fontSize: '12px', color: '#64748b' }}>
-            {bundle.bundlesAvailable} available
           </span>
         </div>
         <Badge

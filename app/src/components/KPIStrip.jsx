@@ -1,4 +1,4 @@
-import { TrendingDown, Package, TrendingUp } from 'lucide-react';
+import { TrendingDown, ShoppingBag, DollarSign } from 'lucide-react';
 
 function KPICard({ icon: Icon, label, value, valueColor, subtext, accentBg, accentColor }) {
   return (
@@ -47,7 +47,7 @@ function KPICard({ icon: Icon, label, value, valueColor, subtext, accentBg, acce
   );
 }
 
-export default function KPIStrip({ totalShrinkExposure, skusAtRisk, estimatedRecovery }) {
+export default function KPIStrip({ totalShrinkExposure, bundlesSoldToday, revenueToday, revenueRemaining }) {
   return (
     <div style={{ display: 'flex', gap: '16px' }}>
       <KPICard
@@ -60,19 +60,20 @@ export default function KPIStrip({ totalShrinkExposure, skusAtRisk, estimatedRec
         accentColor="#dc2626"
       />
       <KPICard
-        icon={Package}
-        label="SKUs at Risk"
-        value={skusAtRisk}
-        subtext="Across 4 categories"
-        accentBg="#fef3c7"
-        accentColor="#d97706"
+        icon={ShoppingBag}
+        label="Bundles Sold Today"
+        value={`${bundlesSoldToday} units`}
+        valueColor="#16a34a"
+        subtext="Across all active kits"
+        accentBg="#dcfce7"
+        accentColor="#16a34a"
       />
       <KPICard
-        icon={TrendingUp}
-        label="Recovery if Kitted Sells Through"
-        value={`$${estimatedRecovery.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
+        icon={DollarSign}
+        label="Revenue Recovered Today"
+        value={`$${revenueToday.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
         valueColor="#16a34a"
-        subtext="Based on active bundles"
+        subtext={`$${revenueRemaining.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} still recoverable`}
         accentBg="#dcfce7"
         accentColor="#16a34a"
       />

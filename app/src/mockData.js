@@ -170,6 +170,7 @@ export const bundleRecommendations = [
     retailValue: 18.97,
     shrinkSavedPerBundle: 9.73,
     bundlesAvailable: 12,
+    unitsSold: 8,
     isLive: false,
   },
   {
@@ -189,6 +190,7 @@ export const bundleRecommendations = [
     retailValue: 14.47,
     shrinkSavedPerBundle: 7.23,
     bundlesAvailable: 8,
+    unitsSold: 6,
     isLive: false,
   },
   {
@@ -208,6 +210,7 @@ export const bundleRecommendations = [
     retailValue: 11.24,
     shrinkSavedPerBundle: 5.62,
     bundlesAvailable: 15,
+    unitsSold: 5,
     isLive: false,
   },
   {
@@ -227,6 +230,7 @@ export const bundleRecommendations = [
     retailValue: 15.56,
     shrinkSavedPerBundle: 7.78,
     bundlesAvailable: 10,
+    unitsSold: 7,
     isLive: false,
   },
   {
@@ -247,16 +251,17 @@ export const bundleRecommendations = [
     retailValue: 20.26,
     shrinkSavedPerBundle: 10.13,
     bundlesAvailable: 9,
+    unitsSold: 4,
     isLive: false,
   },
 ];
 
 export const shrinkTrendData = [
-  { date: "Mar 12", shrinkLoss: 1240, kittedRecovery: 310 },
-  { date: "Mar 13", shrinkLoss: 1580, kittedRecovery: 790 },
-  { date: "Mar 14", shrinkLoss: 980, kittedRecovery: 490 },
-  { date: "Mar 15", shrinkLoss: 2100, kittedRecovery: 1470 },
-  { date: "Mar 16", shrinkLoss: 1720, kittedRecovery: 1290 },
-  { date: "Mar 17", shrinkLoss: 1450, kittedRecovery: 1160 },
-  { date: "Mar 18", shrinkLoss: 2380, kittedRecovery: 0 },
+  { date: "Mar 12", shrinkLoss: 1240, kittedRecovery: 310,  bundleRevenue: 124 },
+  { date: "Mar 13", shrinkLoss: 1580, kittedRecovery: 790,  bundleRevenue: 248 },
+  { date: "Mar 14", shrinkLoss: 980,  kittedRecovery: 490,  bundleRevenue: 168 },
+  { date: "Mar 15", shrinkLoss: 2100, kittedRecovery: 1470, bundleRevenue: 389 },
+  { date: "Mar 16", shrinkLoss: 1720, kittedRecovery: 1290, bundleRevenue: 312 },
+  { date: "Mar 17", shrinkLoss: 1450, kittedRecovery: 1160, bundleRevenue: 298 },
+  { date: "Mar 18", shrinkLoss: 2380, kittedRecovery: 0,    bundleRevenue: 0 },
 ];

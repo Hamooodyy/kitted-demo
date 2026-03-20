@@ -26,10 +26,9 @@ export default function ManagerDashboard({ onSwitchToShopper }) {
   const totalShrinkExposure = atRiskInventory.reduce(
     (sum, item) => sum + item.quantity * item.costPerUnit, 0
   );
-  const skusAtRisk = atRiskInventory.length;
-  const estimatedRecovery = bundles.reduce(
-    (sum, b) => sum + b.bundlePrice * b.bundlesAvailable, 0
-  );
+  const bundlesSoldToday = bundles.reduce((sum, b) => sum + b.unitsSold, 0);
+  const revenueToday = bundles.reduce((sum, b) => sum + b.unitsSold * b.bundlePrice, 0);
+  const revenueRemaining = bundles.reduce((sum, b) => sum + (b.bundlesAvailable - b.unitsSold) * b.bundlePrice, 0);
 
   return (
     <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '24px' }}>
@@ -52,8 +51,9 @@ export default function ManagerDashboard({ onSwitchToShopper }) {
       {/* KPI Strip */}
       <KPIStrip
         totalShrinkExposure={totalShrinkExposure}
-        skusAtRisk={skusAtRisk}
-        estimatedRecovery={estimatedRecovery}
+        bundlesSoldToday={bundlesSoldToday}
+        revenueToday={revenueToday}
+        revenueRemaining={revenueRemaining}
       />
 
       {/* Main Grid */}
