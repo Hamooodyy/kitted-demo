@@ -1,4 +1,5 @@
 import { TrendingDown, ShoppingBag, DollarSign } from 'lucide-react';
+import { formatCurrency } from '../utils/format';
 
 function KPICard({ icon: Icon, label, value, valueParts, valueColor, badge, badgeColor, badgeBg, accentBg, accentColor }) {
   return (
@@ -91,7 +92,7 @@ export default function KPIStrip({ totalShrinkExposure, bundlesSoldToday, revenu
       <KPICard
         icon={TrendingDown}
         label="Shrink Exposure Today"
-        value={`$${totalShrinkExposure.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+        value={formatCurrency(totalShrinkExposure)}
         valueColor="#dc2626"
         badge="+12.4% vs yesterday"
         badgeBg="#fee2e2"
@@ -113,7 +114,7 @@ export default function KPIStrip({ totalShrinkExposure, bundlesSoldToday, revenu
       <KPICard
         icon={DollarSign}
         label="Revenue Recovered Today"
-        value={`$${revenueToday.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+        value={formatCurrency(revenueToday)}
         valueColor="#0f172a"
         badge="+12.4% vs yesterday"
         badgeBg="#dcfce7"

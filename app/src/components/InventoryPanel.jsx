@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { CATEGORY_COLORS } from '../constants';
+import { formatCurrency } from '../utils/format';
 
 const CATEGORY_DISPLAY = {
   Protein: 'Meat & Poultry',
@@ -195,7 +196,7 @@ export default function InventoryPanel({ items, highlightedSkus }) {
                     <DaysToExpiryBadge days={item.daysUntilExpiration} />
                   </td>
                   <td style={{ padding: '13px 16px', fontSize: '13px', fontWeight: '700', color: '#dc2626', whiteSpace: 'nowrap' }}>
-                    ${shrinkValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {formatCurrency(shrinkValue)}
                   </td>
                 </tr>
               );

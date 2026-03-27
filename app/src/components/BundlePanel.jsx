@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { Sparkles, CheckCircle } from 'lucide-react';
 import { LABEL_CONFIG } from '../constants';
+import { formatCurrency } from '../utils/format';
 
 function LabelBadge({ label }) {
   const lc = LABEL_CONFIG[label] || LABEL_CONFIG['Tonight Only'];
@@ -88,7 +90,7 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
         {[
           { label: 'Bundle Price', value: `$${bundle.bundlePrice.toFixed(2)}`, color: '#0f172a' },
           { label: 'Retail', value: `$${bundle.retailValue.toFixed(2)}`, color: '#94a3b8', strike: true },
-          { label: 'Recovery', value: `+$${recoveryPotential.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`, color: '#16a34a' },
+          { label: 'Recovery', value: `+${formatCurrency(recoveryPotential, 0)}`, color: '#16a34a' },
         ].map(({ label, value, color, strike }) => (
           <div key={label} style={{ background: 'white', padding: '8px 10px', textAlign: 'center' }}>
             <div style={{ fontSize: '10px', fontWeight: '600', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '3px' }}>
@@ -139,7 +141,10 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
 }
 
 export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
-  const totalRecoveryPotential = bundles.reduce((sum, b) => sum + b.bundlePrice * b.bundlesAvailable, 0);
+  const totalRecoveryPotential = useMemo(
+    () => bundles.reduce((sum, b) => sum + b.bundlePrice * b.bundlesAvailable, 0),
+    [bundles]
+  );
 
   return (
     <div style={{
@@ -147,7 +152,10 @@ export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
       borderRadius: '12px',
       border: '1px solid #e2e8f0',
       overflow: 'hidden',
-      height: 'fit-content',
+      flex: 1,
+      minHeight: 0,
+      display: 'flex',
+      flexDirection: 'column',
     }}>
       {/* Dark Header */}
       <div style={{
@@ -190,7 +198,7 @@ export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        maxHeight: '72vh',
+        flex: 1,
         overflowY: 'auto',
       }}>
         {bundles.map(bundle => (
@@ -216,7 +224,7 @@ export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
           Potential Total Recovery
         </span>
         <span style={{ fontSize: '16px', fontWeight: '700', color: '#0c3d2e', letterSpacing: '-0.3px' }}>
-          ${totalRecoveryPotential.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          {formatCurrency(totalRecoveryPotential)}
         </span>
       </div>
     </div>
