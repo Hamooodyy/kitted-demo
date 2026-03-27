@@ -1,7 +1,7 @@
-# 🛒 FreshCast
+# 🛒 KITTED
 ### Intelligent Perishable Recovery for Grocery Retailers
 
-> Convert expiring inventory into profitable meal bundles — before it hits the bin.
+> Convert expiring inventory into profitable meal bundles before it hits the bin.
 
 ---
 
@@ -17,7 +17,7 @@ The US grocery industry has a waste crisis hiding in plain sight.
 | Annual grocer loss to perishable shrink | $23 billion |
 | Perishable inventory wasted *despite* markdowns | 35–40% |
 
-Grocery stores already use markdown pricing — via SaaS tools or platforms like SAP and Oracle Retail — to clear expiring inventory. But markdowns alone don't work. **If a shopper sees a discounted ingredient but doesn't know what to cook with it, the perceived value is zero.** Decision friction kills the sale.
+Grocery stores already use markdown pricing (via SaaS tools or platforms like SAP and Oracle Retail) to clear expiring inventory. But markdowns alone don't work. If a shopper sees a discounted ingredient but doesn't know what to cook with it, the deal is worthless to them. Decision friction kills the sale.
 
 The result: razor-thin margins, or waste costs baked into prices that hurt customers.
 
@@ -25,9 +25,9 @@ The result: razor-thin margins, or waste costs baked into prices that hurt custo
 
 ## The Solution
 
-**FreshCast** is an intelligent layer that sits on top of existing inventory management systems to convert near-expiry perishables into high-probability purchase bundles.
+**KITTED** sits on top of existing inventory management systems and converts near-expiry perishables into purchase bundles shoppers actually want to buy.
 
-> **Hypothesis:** Discount + reduced meal-planning friction = higher sell-through than simple markdowns.
+> **Hypothesis:** A discount paired with a recipe is more likely to sell through than a discount alone.
 
 ### Core Experience Loop
 
@@ -40,10 +40,10 @@ Generate bundles using approved recipes
         ↓
 Price attractively as "Tonight's Special"
         ↓
-Surface to shoppers — in-store or via mobile app
+Surface to shoppers in-store or via mobile app
 ```
 
-Bundles are fulfilled through **existing pickup and delivery workflows** — no new operational overhead.
+Bundles are fulfilled through existing pickup and delivery workflows. No new operational overhead.
 
 ---
 
@@ -53,20 +53,20 @@ Bundles are fulfilled through **existing pickup and delivery workflows** — no 
 - 💰 **Recover margin** from inventory that would otherwise be written off
 - 📈 **Increase sell-through** of perishable inventory
 - 🛍️ **Grow basket size** through recipe-driven, multi-item purchases
-- ⚙️ **Negligible incremental cost** — runs on top of existing ERP/WMS infrastructure
+- ⚙️ **Low incremental cost** since bundles run through existing ERP/WMS infrastructure
 
 ### For Shoppers
-- 🍽️ **Reduced meal-planning friction** — "Tonight's dinner, decided."
-- 💸 **Attractive pricing** on fresh, quality ingredients
-- 📱 **Timely, relevant offers** surfaced where they already shop
+- 🍽️ **Less meal-planning friction** -- dinner is already figured out
+- 💸 **Attractive pricing** on fresh ingredients
+- 📱 **Timely offers** surfaced where they already shop
 
 ---
 
 ## How It Works
 
-FreshCast integrates directly with your existing inventory management platform (SAP, Oracle Retail, or others) via API. It monitors SKU-level expiration data in real time, applies recipe-matching logic, and generates bundle offers that are pushed to whatever shopper-facing surface you already operate — mobile app, in-store signage, loyalty platform, etc.
+KITTED integrates with your existing inventory management platform (SAP, Oracle Retail, or others) via API. It monitors SKU-level expiration data in real time, applies recipe-matching logic, and generates bundle offers pushed to whatever shopper-facing surface you already operate: mobile app, in-store signage, loyalty platform, etc.
 
-**No rip-and-replace. No new hardware. No retraining staff.**
+No rip-and-replace. No new hardware. No retraining staff.
 
 ---
 
@@ -87,16 +87,12 @@ The initial release focuses on the core loop:
 
 ## Sources
 
-- ReFED — *Insights Engine: US Food Waste*
-- USDA Economic Research Service — *Food Loss and Waste*
-- Food and Agriculture Organization (FAO) — *Global Food Loss and Waste*
+- ReFED, *Insights Engine: US Food Waste*
+- USDA Economic Research Service, *Food Loss and Waste*
+- Food and Agriculture Organization (FAO), *Global Food Loss and Waste*
 
 ---
 
 ## Status
 
-🚧 **Early Development** — We are currently in the research and scoping phase. Interested in partnering or piloting? Open an issue or reach out directly.
-
----
-
-*Built to reduce waste. Built to recover margin. Built for grocers who are ready to stop leaving money in the bin.*
+🚧 **Early Development.** Currently in the research and scoping phase. Interested in partnering or piloting? Open an issue or reach out directly.
