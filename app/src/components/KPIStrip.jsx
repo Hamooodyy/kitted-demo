@@ -1,79 +1,123 @@
 import { TrendingDown, ShoppingBag, DollarSign } from 'lucide-react';
 
-function KPICard({ icon: Icon, label, value, valueColor, subtext, accentBg, accentColor }) {
+function KPICard({ icon: Icon, label, value, valueParts, valueColor, badge, badgeColor, badgeBg, accentBg, accentColor }) {
   return (
     <div style={{
       background: 'white',
       borderRadius: '12px',
-      padding: '20px 24px',
+      padding: '20px 20px 16px',
       border: '1px solid #e2e8f0',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '16px',
       flex: 1,
+      position: 'relative',
+      overflow: 'hidden',
     }}>
-      <div style={{
-        width: '44px',
-        height: '44px',
-        borderRadius: '10px',
-        background: accentBg,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        <Icon size={20} color={accentColor} />
-      </div>
-      <div>
-        <div style={{ fontSize: '12px', fontWeight: '500', color: '#64748b', marginBottom: '2px' }}>
+      {/* Top row: label + icon */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
+        <div style={{
+          fontSize: '11px',
+          fontWeight: '600',
+          color: '#94a3b8',
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+        }}>
           {label}
         </div>
         <div style={{
-          fontSize: '26px',
+          width: '32px',
+          height: '32px',
+          borderRadius: '8px',
+          background: accentBg,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+        }}>
+          <Icon size={16} color={accentColor} />
+        </div>
+      </div>
+
+      {/* Value */}
+      {valueParts ? (
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '12px' }}>
+          <div style={{
+            fontSize: '30px',
+            fontWeight: '700',
+            color: valueColor || '#0f172a',
+            letterSpacing: '-0.8px',
+            lineHeight: 1,
+          }}>
+            {valueParts.main}
+          </div>
+          <div style={{ fontSize: '15px', fontWeight: '500', color: '#64748b' }}>
+            {valueParts.unit}
+          </div>
+        </div>
+      ) : (
+        <div style={{
+          fontSize: '30px',
           fontWeight: '700',
           color: valueColor || '#0f172a',
-          letterSpacing: '-0.5px',
-          lineHeight: 1.1,
+          letterSpacing: '-0.8px',
+          lineHeight: 1,
+          marginBottom: '12px',
         }}>
           {value}
         </div>
-        {subtext && (
-          <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
-            {subtext}
-          </div>
-        )}
-      </div>
+      )}
+
+      {/* Badge */}
+      {badge && (
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{
+            display: 'inline-block',
+            padding: '3px 10px',
+            borderRadius: '99px',
+            fontSize: '11px',
+            fontWeight: '600',
+            background: badgeBg,
+            color: badgeColor,
+          }}>
+            {badge}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
 
-export default function KPIStrip({ totalShrinkExposure, bundlesSoldToday, revenueToday, revenueRemaining }) {
+export default function KPIStrip({ totalShrinkExposure, bundlesSoldToday, revenueToday, revenueRemaining, sellThroughEfficiency }) {
   return (
     <div style={{ display: 'flex', gap: '16px' }}>
       <KPICard
         icon={TrendingDown}
         label="Shrink Exposure Today"
-        value={`$${totalShrinkExposure.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
+        value={`$${totalShrinkExposure.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
         valueColor="#dc2626"
-        subtext="Est. loss if unsold"
+        badge="+12.4% vs yesterday"
+        badgeBg="#fee2e2"
+        badgeColor="#dc2626"
         accentBg="#fee2e2"
         accentColor="#dc2626"
       />
       <KPICard
         icon={ShoppingBag}
-        label="Bundles Sold Today"
-        value={`${bundlesSoldToday} units`}
-        valueColor="#16a34a"
-        subtext="Across all active kits"
+        label="Bundles Sold"
+        valueParts={{ main: bundlesSoldToday, unit: 'units' }}
+        valueColor="#0f172a"
+        badge={`${sellThroughEfficiency}% Efficiency`}
+        badgeBg="#dcfce7"
+        badgeColor="#16a34a"
         accentBg="#dcfce7"
         accentColor="#16a34a"
       />
       <KPICard
         icon={DollarSign}
         label="Revenue Recovered Today"
-        value={`$${revenueToday.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
-        valueColor="#16a34a"
-        subtext={`$${revenueRemaining.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} still recoverable`}
+        value={`$${revenueToday.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+        valueColor="#0f172a"
+        badge="+12.4% vs yesterday"
+        badgeBg="#dcfce7"
+        badgeColor="#16a34a"
         accentBg="#dcfce7"
         accentColor="#16a34a"
       />

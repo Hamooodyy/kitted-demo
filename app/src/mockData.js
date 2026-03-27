@@ -1,8 +1,8 @@
 export const storeInfo = {
   name: "Wegmans",
   location: "Reston, VA",
-  manager: "Sarah Chen",
-  storeId: "WEG-0047",
+  manager: "Alex Marshall",
+  storeId: "#107",
 };
 
 export const atRiskInventory = [
@@ -156,7 +156,7 @@ export const bundleRecommendations = [
   {
     id: "BUN-001",
     name: "Chicken Fajita Kit",
-    label: "Tonight Only",
+    label: "High Demand",
     emoji: "🍗",
     expiryLabel: "Expires in 3 hrs",
     description: "Everything you need for a sizzling weeknight fajita dinner — no shopping list required.",
@@ -257,11 +257,11 @@ export const bundleRecommendations = [
 ];
 
 export const shrinkTrendData = [
-  { date: "Mar 12", shrinkLoss: 1240, kittedRecovery: 310,  bundleRevenue: 124 },
-  { date: "Mar 13", shrinkLoss: 1580, kittedRecovery: 790,  bundleRevenue: 248 },
-  { date: "Mar 14", shrinkLoss: 980,  kittedRecovery: 490,  bundleRevenue: 168 },
-  { date: "Mar 15", shrinkLoss: 2100, kittedRecovery: 1470, bundleRevenue: 389 },
-  { date: "Mar 16", shrinkLoss: 1720, kittedRecovery: 1290, bundleRevenue: 312 },
-  { date: "Mar 17", shrinkLoss: 1450, kittedRecovery: 1160, bundleRevenue: 298 },
-  { date: "Mar 18", shrinkLoss: 2380, kittedRecovery: 0,    bundleRevenue: 0 },
+  { date: "Oct 14", shrinkLoss: 1240, kittedRecovery: 310,  bundleRevenue: 124 },
+  { date: "Oct 15", shrinkLoss: 1580, kittedRecovery: 790,  bundleRevenue: 248 },
+  { date: "Oct 16", shrinkLoss: 980,  kittedRecovery: 490,  bundleRevenue: 168 },
+  { date: "Oct 17", shrinkLoss: 2100, kittedRecovery: 1470, bundleRevenue: 389 },
+  { date: "Oct 18", shrinkLoss: 1720, kittedRecovery: 1290, bundleRevenue: 312 },
+  { date: "Oct 19", shrinkLoss: 1450, kittedRecovery: 1160, bundleRevenue: 298 },
+  { date: "Oct 20", shrinkLoss: 2380, kittedRecovery: 0,    bundleRevenue: 0 },
 ];

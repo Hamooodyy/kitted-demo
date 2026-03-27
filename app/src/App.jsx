@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LayoutDashboard, Smartphone } from 'lucide-react';
+import { LayoutDashboard, Smartphone, Search, Bell, Settings } from 'lucide-react';
 import ManagerDashboard from './views/ManagerDashboard';
 import ShopperView from './views/ShopperView';
 import { storeInfo } from './mockData';
@@ -11,8 +11,8 @@ export default function App() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f1f5f9' }}>
       {/* Top Nav */}
       <header style={{
-        background: '#0f172a',
-        borderBottom: '1px solid #1e293b',
+        background: 'white',
+        borderBottom: '1px solid #e2e8f0',
         position: 'sticky',
         top: 0,
         zIndex: 50,
@@ -21,17 +21,17 @@ export default function App() {
           maxWidth: '1400px',
           margin: '0 auto',
           padding: '0 24px',
-          height: '56px',
+          height: '60px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          gap: '20px',
         }}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Store Logo + Name */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
             <div style={{
-              width: '32px',
-              height: '32px',
-              background: 'linear-gradient(135deg, #16a34a, #15803d)',
+              width: '36px',
+              height: '36px',
+              background: '#0f172a',
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
@@ -40,92 +40,131 @@ export default function App() {
               fontSize: '16px',
               color: 'white',
               letterSpacing: '-0.5px',
-            }}>K</div>
-            <span style={{
-              fontWeight: '700',
-              fontSize: '18px',
-              color: 'white',
-              letterSpacing: '-0.3px',
-            }}>kitted</span>
-            <span style={{
-              fontSize: '11px',
-              fontWeight: '600',
-              color: '#64748b',
-              background: '#1e293b',
-              border: '1px solid #334155',
-              borderRadius: '4px',
-              padding: '2px 7px',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-            }}>Demo Mode</span>
+            }}>W</div>
+            <div>
+              <div style={{ fontWeight: '700', fontSize: '15px', color: '#0f172a', letterSpacing: '-0.2px', lineHeight: 1.2 }}>
+                {storeInfo.name}
+              </div>
+              <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Store {storeInfo.storeId}
+              </div>
+            </div>
           </div>
 
-          {/* Center: Store info */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1px',
-          }}>
-            <span style={{ fontSize: '13px', fontWeight: '600', color: '#e2e8f0' }}>
-              {storeInfo.name} — {storeInfo.location}
-            </span>
-            <span style={{ fontSize: '11px', color: '#64748b' }}>
-              {storeInfo.storeId} · Manager: {storeInfo.manager}
-            </span>
+          {/* Search Bar */}
+          <div style={{ flex: 1, maxWidth: '380px' }}>
+            <div style={{ position: 'relative' }}>
+              <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }} />
+              <input
+                placeholder="Search inventory, SKUs, or bundles..."
+                style={{
+                  width: '100%',
+                  padding: '8px 12px 8px 32px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  background: '#f8fafc',
+                  fontSize: '13px',
+                  color: '#0f172a',
+                  outline: 'none',
+                  fontFamily: 'inherit',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
           </div>
 
-          {/* Right: View Toggle */}
-          <nav style={{
-            display: 'flex',
-            background: '#1e293b',
-            borderRadius: '8px',
-            padding: '3px',
-            gap: '2px',
-          }}>
-            <button
-              onClick={() => setActiveView('manager')}
-              style={{
+          {/* Right Actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginLeft: 'auto' }}>
+            {/* Icon buttons */}
+            <Bell size={18} style={{ color: '#64748b', cursor: 'pointer', flexShrink: 0 }} />
+            <Settings size={18} style={{ color: '#64748b', cursor: 'pointer', flexShrink: 0 }} />
+
+            {/* Divider */}
+            <div style={{ width: '1px', height: '24px', background: '#e2e8f0' }} />
+
+            {/* User */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '13px', fontWeight: '600', color: '#0f172a', lineHeight: 1.2 }}>
+                  {storeInfo.manager}
+                </div>
+                <div style={{ fontSize: '11px', color: '#64748b' }}>Inventory Manager</div>
+              </div>
+              <div style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+                background: '#0f172a',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer',
+                justifyContent: 'center',
                 fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: 'inherit',
-                transition: 'all 0.15s',
-                background: activeView === 'manager' ? '#16a34a' : 'transparent',
-                color: activeView === 'manager' ? 'white' : '#94a3b8',
-              }}
-            >
-              <LayoutDashboard size={14} />
-              Manager View
-            </button>
-            <button
-              onClick={() => setActiveView('shopper')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: '500',
-                fontFamily: 'inherit',
-                transition: 'all 0.15s',
-                background: activeView === 'shopper' ? '#16a34a' : 'transparent',
-                color: activeView === 'shopper' ? 'white' : '#94a3b8',
-              }}
-            >
-              <Smartphone size={14} />
-              Shopper View
-            </button>
-          </nav>
+                fontWeight: '700',
+                color: 'white',
+                flexShrink: 0,
+              }}>
+                {storeInfo.manager.charAt(0)}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div style={{ width: '1px', height: '24px', background: '#e2e8f0' }} />
+
+            {/* View Toggle */}
+            <nav style={{
+              display: 'flex',
+              background: '#f1f5f9',
+              borderRadius: '8px',
+              padding: '3px',
+              gap: '2px',
+              flexShrink: 0,
+            }}>
+              <button
+                onClick={() => setActiveView('manager')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '5px 12px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  fontFamily: 'inherit',
+                  transition: 'all 0.15s',
+                  background: activeView === 'manager' ? 'white' : 'transparent',
+                  color: activeView === 'manager' ? '#0f172a' : '#64748b',
+                  boxShadow: activeView === 'manager' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                }}
+              >
+                <LayoutDashboard size={13} />
+                Manager
+              </button>
+              <button
+                onClick={() => setActiveView('shopper')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '5px 12px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  fontFamily: 'inherit',
+                  transition: 'all 0.15s',
+                  background: activeView === 'shopper' ? 'white' : 'transparent',
+                  color: activeView === 'shopper' ? '#0f172a' : '#64748b',
+                  boxShadow: activeView === 'shopper' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                }}
+              >
+                <Smartphone size={13} />
+                Shopper
+              </button>
+            </nav>
+          </div>
         </div>
       </header>
 

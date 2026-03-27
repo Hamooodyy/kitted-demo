@@ -1,18 +1,29 @@
-import { Users, Zap, CheckCircle } from 'lucide-react';
+import { Sparkles, CheckCircle } from 'lucide-react';
 import { LABEL_CONFIG } from '../constants';
-import Badge from './Badge';
+
+function LabelBadge({ label }) {
+  const lc = LABEL_CONFIG[label] || LABEL_CONFIG['Tonight Only'];
+  return (
+    <span style={{
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: '4px',
+      fontSize: '10px',
+      fontWeight: '700',
+      background: lc.bg,
+      color: lc.primary,
+      border: `1px solid ${lc.border}`,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+      whiteSpace: 'nowrap',
+    }}>
+      {label}
+    </span>
+  );
+}
 
 function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
-  const revenuePotential = bundle.bundlePrice * bundle.bundlesAvailable;
-  const discount = Math.round((1 - bundle.bundlePrice / bundle.retailValue) * 100);
-  const lc = LABEL_CONFIG[bundle.label] || LABEL_CONFIG['Tonight Only'];
-  const sellThrough = bundle.unitsSold / bundle.bundlesAvailable;
-  const sellThroughPct = Math.round(sellThrough * 100);
-  const remaining = bundle.bundlesAvailable - bundle.unitsSold;
-  const { progressColor, progressBg } =
-    sellThrough >= 0.5  ? { progressColor: '#16a34a', progressBg: '#dcfce7' } :
-    sellThrough >= 0.25 ? { progressColor: '#d97706', progressBg: '#fef3c7' } :
-                          { progressColor: '#dc2626', progressBg: '#fee2e2' };
+  const recoveryPotential = bundle.bundlePrice * bundle.bundlesAvailable;
 
   return (
     <div
@@ -21,7 +32,7 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
       style={{
         background: 'white',
         border: '1px solid #e2e8f0',
-        borderRadius: '12px',
+        borderRadius: '10px',
         padding: '16px',
         transition: 'box-shadow 0.2s, border-color 0.2s',
         cursor: 'default',
@@ -35,134 +46,76 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
         e.currentTarget.style.borderColor = '#e2e8f0';
       }}
     >
-      {/* Label + Name */}
-      <div style={{ marginBottom: '10px' }}>
-        <div style={{ marginBottom: '6px' }}>
-          <Badge
-            label={bundle.label}
-            bg={lc.bg}
-            color={lc.primary}
-            border={lc.border}
-            borderRadius="4px"
-            fontSize="10px"
-            fontWeight="700"
-            padding="2px 8px"
-            uppercase
-          />
-        </div>
-        <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#0f172a', letterSpacing: '-0.2px' }}>
+      {/* Header: Name + Label */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '4px' }}>
+        <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '700', color: '#0f172a', letterSpacing: '-0.2px' }}>
           {bundle.name}
         </h3>
+        <LabelBadge label={bundle.label} />
+      </div>
+
+      {/* Yield */}
+      <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+        Yield: {bundle.bundlesAvailable} units
       </div>
 
       {/* Ingredients */}
       <div style={{ marginBottom: '12px' }}>
-        <div style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-          Includes
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+        <ul style={{ margin: 0, padding: '0 0 0 14px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
           {bundle.ingredients.map(ing => (
-            <span key={ing.skuId} style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '3px',
-              padding: '3px 8px',
-              borderRadius: '6px',
-              fontSize: '11px',
-              fontWeight: '500',
-              background: '#f0fdf4',
-              color: '#15803d',
-              border: '1px solid #bbf7d0',
+            <li key={ing.skuId} style={{
+              fontSize: '12px',
+              color: '#334155',
+              lineHeight: 1.5,
             }}>
-              <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#16a34a', flexShrink: 0 }} />
-              {ing.name} · {ing.quantity}
-            </span>
+              {ing.name} ({ing.quantity})
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {/* Pricing Row */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        marginBottom: '12px',
-        padding: '10px 12px',
-        background: '#f8fafc',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        gap: '1px',
+        background: '#f1f5f9',
         borderRadius: '8px',
+        overflow: 'hidden',
+        marginBottom: '12px',
+        border: '1px solid #f1f5f9',
       }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px' }}>Bundle Price</div>
-          <div style={{ fontSize: '20px', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.5px' }}>
-            ${bundle.bundlePrice.toFixed(2)}
+        {[
+          { label: 'Bundle Price', value: `$${bundle.bundlePrice.toFixed(2)}`, color: '#0f172a' },
+          { label: 'Retail', value: `$${bundle.retailValue.toFixed(2)}`, color: '#94a3b8', strike: true },
+          { label: 'Recovery', value: `+$${recoveryPotential.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`, color: '#16a34a' },
+        ].map(({ label, value, color, strike }) => (
+          <div key={label} style={{ background: 'white', padding: '8px 10px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '600', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '3px' }}>
+              {label}
+            </div>
+            <div style={{
+              fontSize: '13px',
+              fontWeight: '700',
+              color,
+              textDecoration: strike ? 'line-through' : 'none',
+            }}>
+              {value}
+            </div>
           </div>
-        </div>
-        <div style={{ width: '1px', height: '36px', background: '#e2e8f0' }} />
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px' }}>Retail Value</div>
-          <div style={{ fontSize: '14px', fontWeight: '600', color: '#94a3b8', textDecoration: 'line-through' }}>
-            ${bundle.retailValue.toFixed(2)}
-          </div>
-        </div>
-        <div style={{ width: '1px', height: '36px', background: '#e2e8f0' }} />
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '2px' }}>Recovery</div>
-          <div style={{ fontSize: '14px', fontWeight: '700', color: '#16a34a' }}>
-            ${revenuePotential.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-          </div>
-        </div>
+        ))}
       </div>
 
-      {/* Sell-Through Progress */}
-      <div style={{ marginBottom: '12px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
-          <span style={{ fontSize: '11px', fontWeight: '600', color: progressColor }}>
-            {bundle.unitsSold} sold · {remaining} remaining
-          </span>
-          <span style={{ fontSize: '11px', fontWeight: '700', color: progressColor }}>
-            {sellThroughPct}% sold
-          </span>
-        </div>
-        <div style={{ height: '6px', borderRadius: '99px', background: progressBg, overflow: 'hidden' }}>
-          <div style={{
-            height: '100%',
-            borderRadius: '99px',
-            background: progressColor,
-            width: `${sellThrough * 100}%`,
-            transition: 'width 0.4s ease',
-          }} />
-        </div>
-      </div>
-
-      {/* Meta Row */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <span style={{ fontSize: '12px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Users size={12} />
-            Serves {bundle.serves}
-          </span>
-        </div>
-        <Badge
-          label={`${discount}% off retail`}
-          bg="#fef3c7"
-          color="#d97706"
-          borderRadius="4px"
-          fontSize="11px"
-          fontWeight="700"
-          padding="2px 6px"
-        />
-      </div>
-
-      {/* Push to App Button */}
+      {/* Action Button */}
       <button
         onClick={() => !bundle.isLive && onPushToApp(bundle.id)}
         style={{
           width: '100%',
-          padding: '10px',
-          borderRadius: '8px',
-          border: bundle.isLive ? '1px solid #bbf7d0' : 'none',
+          padding: '9px',
+          borderRadius: '7px',
+          border: bundle.isLive ? '1px solid #bbf7d0' : '1px solid #cbd5e1',
           cursor: bundle.isLive ? 'default' : 'pointer',
-          fontSize: '13px',
+          fontSize: '12px',
           fontWeight: '600',
           fontFamily: 'inherit',
           display: 'flex',
@@ -170,19 +123,24 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
           justifyContent: 'center',
           gap: '6px',
           transition: 'all 0.2s',
-          background: bundle.isLive ? '#f0fdf4' : '#0f172a',
-          color: bundle.isLive ? '#16a34a' : 'white',
+          background: bundle.isLive ? '#f0fdf4' : 'white',
+          color: bundle.isLive ? '#16a34a' : '#0f172a',
+          textTransform: 'uppercase',
+          letterSpacing: '0.04em',
         }}
       >
         {bundle.isLive
-          ? <><CheckCircle size={14} />Live in App</>
-          : <><Zap size={14} />Push to App</>}
+          ? <><CheckCircle size={13} />Live in App</>
+          : bundle.label === 'High Demand' ? 'Push to App' : 'Activate Kit'
+        }
       </button>
     </div>
   );
 }
 
 export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
+  const totalRecoveryPotential = bundles.reduce((sum, b) => sum + b.bundlePrice * b.bundlesAvailable, 0);
+
   return (
     <div style={{
       background: 'white',
@@ -191,15 +149,50 @@ export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
       overflow: 'hidden',
       height: 'fit-content',
     }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid #f1f5f9', background: 'white' }}>
-        <h2 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#0f172a' }}>
-          Bundle Recommendations
-        </h2>
-        <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#64748b' }}>
-          {bundles.length} kits generated · {bundles.filter(b => b.isLive).length} live
+      {/* Dark Header */}
+      <div style={{
+        padding: '16px 20px',
+        background: '#0c3d2e',
+        borderBottom: '1px solid #0f4a38',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+          <div style={{
+            width: '28px',
+            height: '28px',
+            borderRadius: '6px',
+            background: 'rgba(255,255,255,0.12)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <Sparkles size={14} color="#6ee7b7" />
+          </div>
+          <h2 style={{
+            margin: 0,
+            fontSize: '12px',
+            fontWeight: '700',
+            color: 'white',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+          }}>
+            Bundle Engine Recommendations
+          </h2>
+        </div>
+        <p style={{ margin: 0, fontSize: '12px', color: '#86efac', lineHeight: 1.5 }}>
+          Convert at-risk SKUs into high-margin ready-to-cook kits.
         </p>
       </div>
-      <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '80vh', overflowY: 'auto' }}>
+
+      {/* Bundle Cards */}
+      <div style={{
+        padding: '14px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        maxHeight: '72vh',
+        overflowY: 'auto',
+      }}>
         {bundles.map(bundle => (
           <BundleCard
             key={bundle.id}
@@ -209,6 +202,22 @@ export default function BundlePanel({ bundles, onPushToApp, onBundleHover }) {
             onMouseLeave={onBundleHover}
           />
         ))}
+      </div>
+
+      {/* Total Recovery Footer */}
+      <div style={{
+        padding: '14px 20px',
+        borderTop: '1px solid #f1f5f9',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <span style={{ fontSize: '12px', fontWeight: '500', color: '#64748b' }}>
+          Potential Total Recovery
+        </span>
+        <span style={{ fontSize: '16px', fontWeight: '700', color: '#0c3d2e', letterSpacing: '-0.3px' }}>
+          ${totalRecoveryPotential.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </span>
       </div>
     </div>
   );

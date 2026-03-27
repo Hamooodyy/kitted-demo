@@ -26,26 +26,53 @@ export default function ManagerDashboard({ onSwitchToShopper }) {
   const totalShrinkExposure = atRiskInventory.reduce(
     (sum, item) => sum + item.quantity * item.costPerUnit, 0
   );
+  const totalBundlesAvailable = bundles.reduce((sum, b) => sum + b.bundlesAvailable, 0);
   const bundlesSoldToday = bundles.reduce((sum, b) => sum + b.unitsSold, 0);
   const revenueToday = bundles.reduce((sum, b) => sum + b.unitsSold * b.bundlePrice, 0);
   const revenueRemaining = bundles.reduce((sum, b) => sum + (b.bundlesAvailable - b.unitsSold) * b.bundlePrice, 0);
+  const sellThroughEfficiency = Math.round((bundlesSoldToday / totalBundlesAvailable) * 100);
 
   return (
     <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '24px' }}>
       {/* Page Header */}
-      <div style={{ marginBottom: '24px' }}>
+      <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1 style={{
           margin: 0,
-          fontSize: '22px',
+          fontSize: '24px',
           fontWeight: '700',
           color: '#0f172a',
-          letterSpacing: '-0.3px',
+          letterSpacing: '-0.4px',
         }}>
-          Inventory Intelligence
+          Kitted Analytics
         </h1>
-        <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#64748b' }}>
-          Today · {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-        </p>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button style={{
+            padding: '8px 16px',
+            borderRadius: '8px',
+            border: '1px solid #e2e8f0',
+            background: 'white',
+            fontSize: '13px',
+            fontWeight: '500',
+            color: '#334155',
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}>
+            Export Report
+          </button>
+          <button style={{
+            padding: '8px 16px',
+            borderRadius: '8px',
+            border: 'none',
+            background: '#0f172a',
+            fontSize: '13px',
+            fontWeight: '500',
+            color: 'white',
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}>
+            Refresh Data
+          </button>
+        </div>
       </div>
 
       {/* KPI Strip */}
@@ -54,12 +81,13 @@ export default function ManagerDashboard({ onSwitchToShopper }) {
         bundlesSoldToday={bundlesSoldToday}
         revenueToday={revenueToday}
         revenueRemaining={revenueRemaining}
+        sellThroughEfficiency={sellThroughEfficiency}
       />
 
       {/* Main Grid */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 420px',
+        gridTemplateColumns: '1fr 400px',
         gap: '20px',
         marginTop: '20px',
       }}>
