@@ -1,120 +1,102 @@
-Kitted Demo — Requirements Document
-Purpose
-Build a non-production interactive demo of Kitted — a perishable inventory optimization tool for grocery stores. This demo is for pitching to startup founders and technical partners. The goal is to make the core value proposition tangible and walkable, not to simulate a production system. Every screen should communicate one of two things: "here's the problem" or "here's what Kitted does about it."
+# 🛒 FreshCast
+### Intelligent Perishable Recovery for Grocery Retailers
 
-Tech Stack
-Framework: React (Vite scaffold preferred)
-Styling: Tailwind CSS
-Data: All hardcoded in a single mockData.js file — no backend, no API calls, no database
-Routing: React Router for view switching between the two main perspectives
-Charts: Recharts for any data visualizations
-Icons: Lucide React
-The app must run with npm install && npm run dev. No environment variables required.
+> Convert expiring inventory into profitable meal bundles — before it hits the bin.
 
-Application Structure
-The demo has two distinct views, selectable from a top-level navigation bar. Think of it as two tabs:
+---
 
-Manager View — the store ops/inventory dashboard
-Shopper View — a mobile-style shopper-facing interface showing Tonight's Specials
-A persistent top nav shows the Kitted logo, the two view tabs, and a small "Demo Mode" badge so it's always clear this is a prototype.
+## The Problem
 
-View 1: Manager Dashboard
-This is the internal-facing side of Kitted. It shows a store manager what the system has detected and what it recommends doing about it. It should feel like a SaaS ops dashboard — clean, data-dense, and action-oriented.
+The US grocery industry has a waste crisis hiding in plain sight.
 
-1A. At-Risk Inventory Panel
-Display a table or card grid of SKUs that are approaching expiration. Each item should show:
+| Metric | Figure |
+|---|---|
+| Share of US food supply that goes unsold or uneaten | 31% |
+| Surplus food that ends up in landfills | 85% |
+| Annual food waste value (US) | $382 billion |
+| Annual grocer loss to perishable shrink | $23 billion |
+| Perishable inventory wasted *despite* markdowns | 35–40% |
 
-SKU name (e.g., "Boneless Chicken Breast", "Roma Tomatoes", "Corn Tortillas")
-Current quantity on hand
-Expiration date
-Days until expiration (highlight items ≤ 3 days in red, 4–6 days in yellow)
-Estimated shrink loss if unsold (quantity × cost per unit, formatted as a dollar amount)
-A status badge: At Risk, Expiring Soon, or Critical
-Seed the mock data with at least 10–12 SKUs across produce, protein, and dairy categories to make the problem feel real. Include a mix of urgency levels.
+Grocery stores already use markdown pricing — via SaaS tools or platforms like SAP and Oracle Retail — to clear expiring inventory. But markdowns alone don't work. **If a shopper sees a discounted ingredient but doesn't know what to cook with it, the perceived value is zero.** Decision friction kills the sale.
 
-At the top of this panel, show a summary strip with three KPI cards:
+The result: razor-thin margins, or waste costs baked into prices that hurt customers.
 
-Total estimated shrink exposure today (sum of all at-risk items' shrink value)
-Number of SKUs at risk
-Estimated recovery if all recommended bundles sell through
-1B. Bundle Recommendations Panel
-Below or alongside the inventory panel, show the bundles Kitted has generated from the at-risk inventory. Each bundle card should display:
+---
 
-Bundle name (e.g., "Chicken Fajita Kit", "Caprese Salad Kit", "Breakfast Scramble Kit")
-"Tonight Only" or "Today's Lunch" label
-List of included ingredients, with quantities
-Serves X people
-Suggested bundle price
-Original value of ingredients at retail (so the margin story is visible)
-Estimated margin recovery vs. writing the ingredients off
-A Push to App button (non-functional — it just changes to a green "Live" state on click to simulate publishing)
-Show at least 4–5 bundles. Each bundle should use at least 2–3 of the at-risk SKUs from the inventory panel above. Visually connect them — either with a highlighted row in the inventory table or a small ingredient tag on the bundle card.
+## The Solution
 
-1C. Shrink Trend Chart
-A simple bar or area chart showing the last 7 days of estimated daily shrink loss (hardcoded values). Add a second line or bar showing projected recovery with Kitted active. This visualizes the before/after story — even with fake data, the shape of the chart should make the pitch clear.
+**FreshCast** is an intelligent layer that sits on top of existing inventory management systems to convert near-expiry perishables into high-probability purchase bundles.
 
-Label the Y-axis in dollars. Keep it simple — this is a proof-of-concept, not a financial model.
+> **Hypothesis:** Discount + reduced meal-planning friction = higher sell-through than simple markdowns.
 
-View 2: Shopper Mobile View
-This view simulates what a shopper would see inside the grocery store's existing mobile app (e.g., a Wegmans or Kroger app). It should be rendered as a phone-frame mockup centered on the screen — a narrow, tall container styled to look like a mobile UI, with rounded corners and a subtle device bezel. The rest of the screen can be a neutral background.
+### Core Experience Loop
 
-This is the consumer-facing proof that the bundles actually reach shoppers.
+```
+Detect inventory approaching expiration
+        ↓
+Identify complementary in-stock items
+        ↓
+Generate bundles using approved recipes
+        ↓
+Price attractively as "Tonight's Special"
+        ↓
+Surface to shoppers — in-store or via mobile app
+```
 
-2A. Tonight's Specials Feed
-A vertical scrollable card feed inside the phone frame. Show 4–5 bundle offer cards. Each card includes:
+Bundles are fulfilled through **existing pickup and delivery workflows** — no new operational overhead.
 
-A bold banner: "Tonight Only" or "Today's Lunch Deal" (use color to differentiate)
-Bundle name
-Short description (one sentence, e.g., "Everything you need for a weeknight fajita dinner")
-Price badge (e.g., "$10")
-Serves X
-A visual ingredient list using small pill/tag components
-An Add to Cart button — clicking it should toggle to a green Added ✓ state
-A countdown timer displayed as a static label (e.g., "Expires in 4 hrs") — does not need to tick
-The cards should feel like something you'd actually see in a grocery app — approachable, food-forward, and deal-oriented. Not clinical.
+---
 
-2B. Cart Summary (Optional but recommended)
-At the bottom of the phone frame, show a sticky cart bar that updates as the user taps Add to Cart. Display item count and total price. Keep it minimal — just enough to make the interaction feel real.
+## Key Benefits
 
-Mock Data Specifications
-All data lives in /src/mockData.js. Structure it as named exports:
+### For Retailers
+- 💰 **Recover margin** from inventory that would otherwise be written off
+- 📈 **Increase sell-through** of perishable inventory
+- 🛍️ **Grow basket size** through recipe-driven, multi-item purchases
+- ⚙️ **Negligible incremental cost** — runs on top of existing ERP/WMS infrastructure
 
-atRiskInventory — array of SKU objects
-bundleRecommendations — array of bundle objects, each referencing SKU IDs from the inventory array
-shrinkTrendData — array of 7 daily data points { date, shrinkLoss, kittedRecovery }
-storeInfo — store name, location, manager name (use "Wegmans – Reston, VA" to make the demo feel grounded)
-Design Direction
-The manager dashboard should feel like a modern B2B SaaS tool — think a tone between Linear and a grocery ERP. Dark header, white content area, green as the primary accent color (recovery = green). Use a slightly editorial sans-serif for headings.
+### For Shoppers
+- 🍽️ **Reduced meal-planning friction** — "Tonight's dinner, decided."
+- 💸 **Attractive pricing** on fresh, quality ingredients
+- 📱 **Timely, relevant offers** surfaced where they already shop
 
-The shopper view should contrast sharply — warmer, more consumer-friendly. Use a cream or off-white background inside the phone frame, amber/orange accents for deal badges, bold food-forward typography. It should feel like a real mobile grocery app, not a dashboard.
+---
 
-The tonal contrast between the two views reinforces the two-sided nature of the platform — Kitted serves both the operator and the end customer.
+## How It Works
 
-Avoid generic AI design patterns: no purple gradients, no system fonts, no cookie-cutter card layouts. Make it look like someone actually designed this product.
+FreshCast integrates directly with your existing inventory management platform (SAP, Oracle Retail, or others) via API. It monitors SKU-level expiration data in real time, applies recipe-matching logic, and generates bundle offers that are pushed to whatever shopper-facing surface you already operate — mobile app, in-store signage, loyalty platform, etc.
 
-Demo Flow (How a Pitch Should Walk Through This)
-Claude Code should be aware that this is meant to be walked through in sequence during a live pitch. The intended narrative:
+**No rip-and-replace. No new hardware. No retraining staff.**
 
-Open Manager Dashboard → "Here's what a store manager sees. Today, this store has $X,XXX of perishable inventory at risk of being thrown away."
-Scroll to Bundle Recommendations → "Instead of marking down chicken breast by 40%, Kitted bundles it into a Fajita Kit. The store sells it at $10, recovers margin, and the customer skips the meal planning step entirely."
-Click Push to App on a bundle → "With one click, that offer goes live."
-Switch to Shopper View → "And here's what the shopper sees in their grocery app — a deal, a recipe, a complete dinner. No thinking required."
-Tap Add to Cart → "The shopper buys it. The store sells what it would have thrown away."
-This arc should feel natural when demoing. The UI should support it — nothing should require explanation to understand.
+---
 
-Out of Scope
-The following are explicitly excluded from this demo. Do not build them:
+## MVP Scope
 
-Any real backend, database, or API integration
-Authentication or login
-Actual ERP or inventory system connectivity (SAP, Oracle Retail, etc.)
-Push notification functionality
-Real payment or cart flow
-Admin settings, user management, or multi-store views
-Any AI-generated content at runtime
-Deliverables
-A working React app scaffolded with Vite
-All source in a single /kitted-demo project directory
-Runs on localhost:5173 with npm run dev
-No broken states, no console errors on initial load
-All interactive elements (Push to App, Add to Cart) provide visual feedback on click
+The initial release focuses on the core loop:
+
+- [x] ERP/IMS integration for near-expiry SKU detection
+- [x] Recipe-based complementary item matching
+- [x] Dynamic bundle pricing engine
+- [x] Offer generation ("Tonight's Special", "Today's Lunch Deal")
+- [x] Push to existing mobile app or in-store display
+- [ ] Shopper preference personalization *(future)*
+- [ ] Prepared foods / deli department integration *(future)*
+- [ ] Waste reduction reporting dashboard *(future)*
+
+---
+
+## Sources
+
+- ReFED — *Insights Engine: US Food Waste*
+- USDA Economic Research Service — *Food Loss and Waste*
+- Food and Agriculture Organization (FAO) — *Global Food Loss and Waste*
+
+---
+
+## Status
+
+🚧 **Early Development** — We are currently in the research and scoping phase. Interested in partnering or piloting? Open an issue or reach out directly.
+
+---
+
+*Built to reduce waste. Built to recover margin. Built for grocers who are ready to stop leaving money in the bin.*
