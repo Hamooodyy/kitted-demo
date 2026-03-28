@@ -156,6 +156,7 @@ export const bundleRecommendations = [
   {
     id: "BUN-001",
     name: "Chicken Fajita Kit",
+    category: "Chicken",
     label: "High Demand",
     emoji: "🍗",
     expiryLabel: "Expires in 3 hrs",
@@ -176,6 +177,7 @@ export const bundleRecommendations = [
   {
     id: "BUN-002",
     name: "Caprese Salad Kit",
+    category: "Salads",
     label: "Tonight Only",
     emoji: "🥗",
     expiryLabel: "Expires in 5 hrs",
@@ -196,7 +198,8 @@ export const bundleRecommendations = [
   {
     id: "BUN-003",
     name: "Breakfast Scramble Kit",
-    label: "Today's Lunch Deal",
+    category: "Breakfast",
+    label: "Today's Breakfast Deal",
     emoji: "🍳",
     expiryLabel: "Expires in 8 hrs",
     description: "A hearty scramble that works for brunch or lunch — eggs, peppers, and cheese all in one grab.",
@@ -216,6 +219,7 @@ export const bundleRecommendations = [
   {
     id: "BUN-004",
     name: "Loaded Baked Potato Kit",
+    category: "Veggie",
     label: "Tonight Only",
     emoji: "🥔",
     expiryLabel: "Expires in 4 hrs",
@@ -236,6 +240,7 @@ export const bundleRecommendations = [
   {
     id: "BUN-005",
     name: "Beef Taco Kit",
+    category: "Tacos",
     label: "Tonight Only",
     emoji: "🌮",
     expiryLabel: "Expires in 6 hrs",

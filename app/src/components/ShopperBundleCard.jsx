@@ -1,146 +1,121 @@
 import { Users, Clock, CheckCircle, Plus } from 'lucide-react';
 import { LABEL_CONFIG } from '../constants';
-import Badge from './Badge';
+import { formatCurrency } from '../utils/format';
+
+const CATEGORY_GRADIENTS = {
+  Chicken:   { from: '#fed7aa', to: '#f97316' },
+  Salads:    { from: '#bbf7d0', to: '#22c55e' },
+  Breakfast: { from: '#fef08a', to: '#eab308' },
+  Veggie:    { from: '#d9f99d', to: '#84cc16' },
+  Tacos:     { from: '#fecaca', to: '#ef4444' },
+};
 
 export default function ShopperBundleCard({ bundle, inCart, onAddToCart }) {
   const lc = LABEL_CONFIG[bundle.label] || LABEL_CONFIG['Tonight Only'];
+  const grad = CATEGORY_GRADIENTS[bundle.category] || { from: '#e2e8f0', to: '#94a3b8' };
 
   return (
     <div style={{
       background: 'white',
-      borderRadius: '16px',
+      borderRadius: '12px',
       overflow: 'hidden',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
       border: '1px solid #f3f4f6',
-      marginBottom: '16px',
+      boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
     }}>
-      {/* Card Header */}
+      {/* Image area */}
       <div style={{
-        background: '#fef9f0',
-        padding: '16px',
-        borderBottom: '1px solid #f5e9d8',
+        height: '112px',
+        background: `linear-gradient(135deg, ${grad.from}, ${grad.to})`,
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
+        justifyContent: 'center',
+        position: 'relative',
       }}>
+        <span style={{ fontSize: '46px', lineHeight: 1 }}>{bundle.emoji}</span>
+
+        {/* Label badge */}
         <div style={{
-          width: '52px',
-          height: '52px',
-          borderRadius: '12px',
-          background: '#fff7ed',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '28px',
-          flexShrink: 0,
-          border: '1px solid #fed7aa',
+          position: 'absolute',
+          top: '8px',
+          left: '8px',
+          background: lc.primary,
+          color: 'white',
+          fontSize: '8px',
+          fontWeight: '800',
+          padding: '2px 6px',
+          borderRadius: '4px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
         }}>
-          {bundle.emoji}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ marginBottom: '4px' }}>
-            <Badge
-              label={bundle.label}
-              bg={lc.primary}
-              color="white"
-              borderRadius="4px"
-              fontSize="9px"
-              fontWeight="800"
-              padding="2px 7px"
-              uppercase
-            />
-          </div>
-          <h3 style={{
-            margin: 0,
-            fontSize: '15px',
-            fontWeight: '700',
-            color: '#111827',
-            letterSpacing: '-0.2px',
-            lineHeight: 1.2,
-          }}>
-            {bundle.name}
-          </h3>
-        </div>
-        <div style={{ textAlign: 'right', flexShrink: 0 }}>
-          <div style={{ fontSize: '22px', fontWeight: '800', color: '#111827', letterSpacing: '-0.5px', lineHeight: 1 }}>
-            ${bundle.bundlePrice.toFixed(2)}
-          </div>
-          <div style={{ fontSize: '10px', color: '#9ca3af', textDecoration: 'line-through', marginTop: '2px' }}>
-            ${bundle.retailValue.toFixed(2)}
-          </div>
-        </div>
-      </div>
-
-      {/* Card Body */}
-      <div style={{ padding: '14px 16px' }}>
-        <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#4b5563', lineHeight: 1.5 }}>
-          {bundle.description}
-        </p>
-
-        {/* Ingredients */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '12px' }}>
-          {bundle.ingredients.map(ing => (
-            <span key={ing.skuId} style={{
-              padding: '3px 8px',
-              borderRadius: '100px',
-              fontSize: '11px',
-              fontWeight: '500',
-              background: '#f3f4f6',
-              color: '#374151',
-              border: '1px solid #e5e7eb',
-            }}>
-              {ing.name}
-            </span>
-          ))}
+          {bundle.label}
         </div>
 
-        {/* Meta */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-          <span style={{ fontSize: '11px', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '3px' }}>
-            <Users size={11} />
-            Serves {bundle.serves}
-          </span>
-          <span style={{
-            fontSize: '11px',
-            color: '#d97706',
-            fontWeight: '600',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '3px',
-            background: '#fffbeb',
-            padding: '2px 7px',
-            borderRadius: '100px',
-            border: '1px solid #fde68a',
-          }}>
-            <Clock size={10} />
-            {bundle.expiryLabel}
-          </span>
-        </div>
-
-        {/* Add to Cart Button */}
+        {/* Add / Added button */}
         <button
           onClick={() => !inCart && onAddToCart(bundle)}
           style={{
-            width: '100%',
-            padding: '12px',
-            borderRadius: '12px',
-            border: inCart ? '2px solid #bbf7d0' : '2px solid transparent',
+            position: 'absolute',
+            bottom: '8px',
+            right: '8px',
+            width: '28px',
+            height: '28px',
+            borderRadius: '8px',
+            border: 'none',
             cursor: inCart ? 'default' : 'pointer',
-            fontSize: '14px',
-            fontWeight: '700',
-            fontFamily: 'inherit',
+            background: inCart ? '#16a34a' : '#111827',
+            color: 'white',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '6px',
-            transition: 'all 0.2s',
-            background: inCart ? '#f0fdf4' : '#111827',
-            color: inCart ? '#16a34a' : 'white',
-            letterSpacing: '-0.1px',
+            fontFamily: 'inherit',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+            transition: 'background 0.15s',
           }}
         >
-          {inCart ? <><CheckCircle size={16} />Added ✓</> : <><Plus size={16} />Add to Cart</>}
+          {inCart ? <CheckCircle size={14} /> : <Plus size={14} />}
         </button>
+      </div>
+
+      {/* Info area */}
+      <div style={{ padding: '10px' }}>
+        <div style={{
+          fontSize: '12px',
+          fontWeight: '700',
+          color: '#111827',
+          letterSpacing: '-0.2px',
+          lineHeight: 1.3,
+          marginBottom: '6px',
+        }}>
+          {bundle.name}
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontSize: '14px', fontWeight: '800', color: '#111827', letterSpacing: '-0.3px' }}>
+              {formatCurrency(bundle.bundlePrice)}
+            </div>
+            <div style={{ fontSize: '10px', color: '#9ca3af', textDecoration: 'line-through' }}>
+              {formatCurrency(bundle.retailValue)}
+            </div>
+          </div>
+          <div style={{ fontSize: '10px', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '2px', marginBottom: '1px' }}>
+            <Users size={10} />
+            {bundle.serves}
+          </div>
+        </div>
+
+        <div style={{
+          marginTop: '6px',
+          fontSize: '10px',
+          color: '#d97706',
+          fontWeight: '600',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '3px',
+        }}>
+          <Clock size={9} />
+          {bundle.expiryLabel}
+        </div>
       </div>
     </div>
   );

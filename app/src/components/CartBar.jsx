@@ -1,3 +1,5 @@
+import { formatCurrency } from '../utils/format';
+
 export default function CartBar({ items, total }) {
   return (
     <div style={{
@@ -6,7 +8,7 @@ export default function CartBar({ items, total }) {
       left: 0,
       right: 0,
       background: '#111827',
-      padding: '14px 20px',
+      padding: '13px 20px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -14,25 +16,29 @@ export default function CartBar({ items, total }) {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <div style={{
-          width: '28px',
-          height: '28px',
-          borderRadius: '8px',
+          width: '22px',
+          height: '22px',
+          borderRadius: '6px',
           background: '#16a34a',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '12px',
+          fontSize: '11px',
           fontWeight: '700',
           color: 'white',
+          flexShrink: 0,
         }}>
           {items.length}
         </div>
-        <span style={{ fontSize: '13px', fontWeight: '500', color: '#d1d5db' }}>
-          {items.length === 1 ? '1 kit' : `${items.length} kits`} in cart
+        <span style={{ fontSize: '14px', fontWeight: '600', color: 'white' }}>
+          My Cart
         </span>
       </div>
-      <div style={{ fontSize: '16px', fontWeight: '800', color: 'white', letterSpacing: '-0.3px' }}>
-        ${total.toFixed(2)}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <span style={{ fontSize: '15px', fontWeight: '800', color: 'white', letterSpacing: '-0.3px' }}>
+          {formatCurrency(total)}
+        </span>
+        <span style={{ fontSize: '16px', color: '#6b7280', lineHeight: 1 }}>›</span>
       </div>
     </div>
   );
