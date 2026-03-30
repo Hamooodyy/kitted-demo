@@ -88,8 +88,8 @@ function BundleCard({ bundle, onPushToApp, onMouseEnter, onMouseLeave }) {
         border: '1px solid #f1f5f9',
       }}>
         {[
-          { label: 'Bundle Price', value: `$${bundle.bundlePrice.toFixed(2)}`, color: '#0f172a' },
-          { label: 'Retail', value: `$${bundle.retailValue.toFixed(2)}`, color: '#94a3b8', strike: true },
+          { label: 'Bundle Price', value: formatCurrency(bundle.bundlePrice), color: '#0f172a' },
+          { label: 'Retail', value: formatCurrency(bundle.retailValue), color: '#94a3b8', strike: true },
           { label: 'Recovery', value: `+${formatCurrency(recoveryPotential, 0)}`, color: '#16a34a' },
         ].map(({ label, value, color, strike }) => (
           <div key={label} style={{ background: 'white', padding: '8px 10px', textAlign: 'center' }}>

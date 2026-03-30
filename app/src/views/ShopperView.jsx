@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useReducer } from 'react';
 import { bundleRecommendations, storeInfo } from '../mockData';
 import { Search, Menu, ChevronRight, X, SlidersHorizontal } from 'lucide-react';
 import PhoneFrame from '../components/PhoneFrame';
@@ -15,13 +15,40 @@ const SORT_OPTIONS = [
 
 const SERVES_OPTIONS = [1, 2, 4, 6];
 
+const FILTER_INITIAL = {
+  activeCategory: 'All',
+  showFilters: false,
+  sortBy: 'best',
+  servesFilter: [],
+};
+
+function filterReducer(state, action) {
+  switch (action.type) {
+    case 'SET_CATEGORY':
+      return { ...state, activeCategory: action.payload };
+    case 'SET_SHOW_FILTERS':
+      return { ...state, showFilters: action.payload };
+    case 'SET_SORT':
+      return { ...state, sortBy: action.payload };
+    case 'TOGGLE_SERVES': {
+      const val = action.payload;
+      const next = state.servesFilter.includes(val)
+        ? state.servesFilter.filter(v => v !== val)
+        : [...state.servesFilter, val];
+      return { ...state, servesFilter: next };
+    }
+    case 'CLEAR_FILTERS':
+      return { ...state, sortBy: 'best', servesFilter: [] };
+    default:
+      return state;
+  }
+}
+
 export default function ShopperView() {
-  const [cartItems, setCartItems]         = useState([]);
-  const [activeTab, setActiveTab]         = useState('kits');
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [showFilters, setShowFilters]     = useState(false);
-  const [sortBy, setSortBy]               = useState('best');
-  const [servesFilter, setServesFilter]   = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [activeTab, setActiveTab] = useState('kits');
+  const [filters, dispatch] = useReducer(filterReducer, FILTER_INITIAL);
+  const { activeCategory, showFilters, sortBy, servesFilter } = filters;
 
   function handleAddToCart(bundle) {
     setCartItems(prev => {
@@ -31,9 +58,7 @@ export default function ShopperView() {
   }
 
   function toggleServes(val) {
-    setServesFilter(prev =>
-      prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]
-    );
+    dispatch({ type: 'TOGGLE_SERVES', payload: val });
   }
 
   const cartTotal = useMemo(
@@ -62,8 +87,7 @@ export default function ShopperView() {
   }, [sortBy, servesFilter]);
 
   function clearFilters() {
-    setSortBy('best');
-    setServesFilter([]);
+    dispatch({ type: 'CLEAR_FILTERS' });
   }
 
   return (
@@ -145,7 +169,7 @@ export default function ShopperView() {
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => dispatch({ type: 'SET_CATEGORY', payload: cat })}
                 style={{
                   padding: '5px 13px',
                   borderRadius: '100px',
@@ -183,7 +207,7 @@ export default function ShopperView() {
             </span>
           </span>
           <button
-            onClick={() => setShowFilters(true)}
+            onClick={() => dispatch({ type: 'SET_SHOW_FILTERS', payload: true })}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -240,7 +264,7 @@ export default function ShopperView() {
         {showFilters && (
           <>
             <div
-              onClick={() => setShowFilters(false)}
+              onClick={() => dispatch({ type: 'SET_SHOW_FILTERS', payload: false })}
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -269,7 +293,7 @@ export default function ShopperView() {
               }}>
                 <span style={{ fontSize: '16px', fontWeight: '700', color: '#111827' }}>Filters</span>
                 <button
-                  onClick={() => setShowFilters(false)}
+                  onClick={() => dispatch({ type: 'SET_SHOW_FILTERS', payload: false })}
                   style={{
                     width: '28px', height: '28px', borderRadius: '50%',
                     background: '#f3f4f6', border: 'none',
@@ -297,7 +321,7 @@ export default function ShopperView() {
                     }}>
                       {SORT_OPTIONS.find(s => s.key === sortBy)?.label}
                       <button
-                        onClick={() => setSortBy('best')}
+                        onClick={() => dispatch({ type: 'SET_SORT', payload: 'best' })}
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex' }}
                       >
                         <X size={10} color="#9ca3af" />
@@ -331,7 +355,7 @@ export default function ShopperView() {
                 {SORT_OPTIONS.map(opt => (
                   <div
                     key={opt.key}
-                    onClick={() => setSortBy(opt.key)}
+                    onClick={() => dispatch({ type: 'SET_SORT', payload: opt.key })}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                       padding: '11px 0',
@@ -396,7 +420,7 @@ export default function ShopperView() {
                   Clear{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
                 </button>
                 <button
-                  onClick={() => setShowFilters(false)}
+                  onClick={() => dispatch({ type: 'SET_SHOW_FILTERS', payload: false })}
                   style={{
                     flex: 2, padding: '13px',
                     borderRadius: '100px',
