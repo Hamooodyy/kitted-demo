@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(npm install:*)",
+      "Bash(npm view:*)",
+      "Bash(python3 -c \"import json,sys; versions=[v for v in json.load\\(sys.stdin\\) if v.startswith\\(''''8.''''\\)]; print\\(versions[-5:]\\)\")",
+      "Bash(npm audit:*)"
     ]
   }
 }
