@@ -49,15 +49,15 @@ Bundles are fulfilled through existing pickup and delivery workflows. No new ope
 ## Key Benefits
 
 ### For Retailers
-- 💰 **Recover margin** from inventory that would otherwise be written off
-- 📈 **Increase sell-through** of perishable inventory
-- 🛍️ **Grow basket size** through recipe-driven, multi-item purchases
-- ⚙️ **Low incremental cost** since bundles run through existing ERP/WMS infrastructure
+-  **Recover margin** from inventory that would otherwise be written off
+- **Increase sell-through** of perishable inventory
+- **Grow basket size** through recipe-driven, multi-item purchases
+- **Low incremental cost** since bundles run through existing ERP/WMS infrastructure
 
 ### For Shoppers
-- 🍽️ **Less meal-planning friction** -- dinner is already figured out
-- 💸 **Attractive pricing** on fresh ingredients
-- 📱 **Timely offers** surfaced where they already shop
+- **Less meal-planning friction** -- dinner is already figured out
+- **Attractive pricing** on fresh ingredients
+- **Timely offers** surfaced where they already shop
 
 ---
 
@@ -67,31 +67,3 @@ KITTED integrates with your existing inventory management platform (SAP, Oracle 
 
 No rip-and-replace. No new hardware. No retraining staff.
 
----
-
-## MVP Scope
-
-The initial release focuses on the core loop:
-
-- [x] ERP/IMS integration for near-expiry SKU detection
-- [x] Recipe-based complementary item matching
-- [x] Dynamic bundle pricing engine
-- [x] Offer generation ("Tonight's Special", "Today's Lunch Deal")
-- [x] Push to existing mobile app or in-store display
-- [ ] Shopper preference personalization *(future)*
-- [ ] Prepared foods / deli department integration *(future)*
-- [ ] Waste reduction reporting dashboard *(future)*
-
----
-
-## Sources
-
-- ReFED, *Insights Engine: US Food Waste*
-- USDA Economic Research Service, *Food Loss and Waste*
-- Food and Agriculture Organization (FAO), *Global Food Loss and Waste*
-
----
-
-## Status
-
-🚧 **Early Development.** Currently in the research and scoping phase. Interested in partnering or piloting? Open an issue or reach out directly.
