@@ -17,14 +17,13 @@ The US grocery industry has a waste crisis hiding in plain sight.
 | Annual grocer loss to perishable shrink | $23 billion |
 | Perishable inventory wasted *despite* markdowns | 35–40% |
 
-Grocery stores already use markdown pricing (via SaaS tools or platforms like SAP and Oracle Retail) to clear expiring inventory. But markdowns alone don't work. If a shopper sees a discounted ingredient but doesn't know what to cook with it, the deal is worthless to them. Decision friction kills the sale.
-
-The result: razor-thin margins, or waste costs baked into prices that hurt customers.
+Grocery stores lose billions every year because perishable ingredients don’t sell before they expire. Existing markdown tools lower prices, but they don’t create demand because shoppers don’t understand what to cook with discounted ingredients.
 
 ---
 
 ## The Solution
 
+We turn expiring inventory into discounted meal bundles. Our software analyzes store inventory and automatically surfaces chef-curated recipes using at-risk ingredients in mobile apps or in-store, increasing sell-through without adding any extra work for store employees.
 **KITTED** sits on top of existing inventory management systems and converts near-expiry perishables into purchase bundles shoppers actually want to buy.
 
 > **Hypothesis:** A discount paired with a recipe is more likely to sell through than a discount alone.
