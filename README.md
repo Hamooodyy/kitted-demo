@@ -1,4 +1,4 @@
-# 🛒 KITTED
+# KITTED
 ### Intelligent Perishable Recovery for Grocery Retailers
 
 > Convert expiring inventory into profitable meal bundles before it hits the bin.
